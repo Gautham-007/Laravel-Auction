@@ -3,11 +3,15 @@
 @section('content')
 <div class="container">
     <h1>Products</h1>
-    <a href="{{ route('products.create') }}" class="btn btn-primary mb-3">Add Product</a>
+    @auth
+        @if(auth()->user()->role === 'admin')
+            <a href="{{ route('products.create') }}" class="btn btn-primary mb-3">Add Product</a>
+        @endif
+    @endauth
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
-    <table class="table table-bordered">
+    <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>Title</th>
@@ -42,11 +46,15 @@
                 </td>
                 <td>
                     <a href="{{ route('products.show', $product) }}" class="btn btn-info btn-sm">View</a>
-                    <a href="{{ route('products.edit', $product) }}" class="btn btn-warning btn-sm">Edit</a>
-                    <form action="{{ route('products.destroy', $product) }}" method="POST" style="display:inline;">
-                        @csrf @method('DELETE')
-                        <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this product?')">Delete</button>
-                    </form>
+                    @auth
+                        @if(auth()->user()->role === 'admin')
+                            <a href="{{ route('products.edit', $product) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <form action="{{ route('products.destroy', $product) }}" method="POST" style="display:inline;">
+                                @csrf @method('DELETE')
+                                <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this product?')">Delete</button>
+                            </form>
+                        @endif
+                    @endauth
                 </td>
             </tr>
         @empty

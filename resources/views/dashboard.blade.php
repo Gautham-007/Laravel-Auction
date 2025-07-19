@@ -10,6 +10,13 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{ __("You're logged in!") }}
+
+                    <!-- Add this link below -->
+                    <div class="mt-4">
+                        <a href="{{ route('products.index') }}" class="btn btn-primary">
+                            Go to Products
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Product;
@@ -14,11 +15,17 @@ class ProductController extends Controller
 
     public function create()
     {
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'Unauthorized');
+        }
         return view('products.create');
     }
 
     public function store(Request $request)
     {
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -47,11 +54,17 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'Unauthorized');
+        }
         return view('products.edit', compact('product'));
     }
 
     public function update(Request $request, Product $product)
     {
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'Unauthorized');
+        }
         $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -75,6 +88,9 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'Unauthorized');
+        }
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Product deleted!');
     }
